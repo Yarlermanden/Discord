@@ -1,0 +1,29 @@
+name: Build, push, and deploy
+
+on: 
+    push:
+        branches:
+            - main
+
+jobs:
+    build_and_push_frontend:
+        name: Build and push frontend
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout the repo
+              uses: actions/checkout@v2
+
+            - name: login to registry
+              uses: docker/login-action@v1
+              with:
+                      registry: ${{ secrets.REGISTRY }}
+                      username: ${{ secrets.REGISTRY_NAME }}
+                      password: ${{ secrets.REGISTRY_PASSWORD }}
+
+            - name: push to registry
+              uses: docker/build-push-action@v2
+              with:
+                      file: frontend/dockerfile
+                      context: ./frontend
+                      push: true
+                      tags: discordBot/frontend:latest
