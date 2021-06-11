@@ -10,8 +10,10 @@ services:
                 #REGISTRY_AUTH_HTPASSWD_REALM: server
                 #REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
             REGISTRY_HTTP_ADDR: 0.0.0.0:443
-            REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-            REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+            #REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+            #REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+            REGISTRY_HTTP_TLS_CERTIFICATE: /certs/selfsigned.crt
+            REGISTRY_HTTP_TLS_KEY: /certs/selfsigned.key
         volumes:
                 #- /auth:/auth
             - /certs:/certs
