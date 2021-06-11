@@ -4,13 +4,17 @@ services:
     registry:
         image: registry:2
         ports:
-            - "5000:5000"
+            - "5000:443"
         environment:
-            REGISTRY_AUTH: htpasswd
-            REGISTRY_AUTH_HTPASSWD_REALM: server
-            REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+                #REGISTRY_AUTH: htpasswd
+                #REGISTRY_AUTH_HTPASSWD_REALM: server
+                #REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
+            REGISTRY_HTTP_ADDR: 0.0.0.0:443
+            REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+            REGISTRY_HTTP_TLS_KEY: /certs/domain.key
         volumes:
-            - /auth:/auth
+                #- /auth:/auth
+            - /certs:/certs
 
     python:
         container_name: python
