@@ -9,5 +9,15 @@ services:
         networks:
             - local
 
+    frontend:
+        container_name: frontend
+        build:
+            context: ./frontend
+            dockerfile: dockerfile
+        ports:
+            - "3000:80"
+        networks:
+            - local
+
 networks: 
     local:
