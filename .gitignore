@@ -1,6 +1,5 @@
-
-# Created by https://www.toptal.com/developers/gitignore/api/csharp,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=csharp,python
+# Created by https://www.toptal.com/developers/gitignore/api/csharp,python,react
+# Edit at https://www.toptal.com/developers/gitignore?templates=csharp,python,react
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -512,4 +511,19 @@ Thumbs.db
 .prof
 
 
-# End of https://www.toptal.com/developers/gitignore/api/csharp,python
+### react ###
+.DS_*
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+# End of https://www.toptal.com/developers/gitignore/api/csharp,python,react
