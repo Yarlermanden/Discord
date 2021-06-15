@@ -15,7 +15,7 @@ module.exports = {
         const newEmbed = new Discord.MessageEmbed()
         .setColor('$12312382')
         .setTitle('Item: ' + item.preview_item.name)
-        .setURL('http://212.237.131.28:13000')
+        .setURL('https://classic.wowhead.com/item=' + item.id)
         .setDescription('')
         //.setImage()
         addFieldToEmbedFromItem(item, newEmbed)
@@ -47,25 +47,81 @@ function fetchItemFromId(fetcher, id){
 }
 
 function addFieldToEmbedFromItem(item, embed){
-    embed.addFields(
-        {name: 'Info', value: 'Quality: ' + item.preview_item.quality.type +
-    "\n Slot: " + item.preview_item.inventory_type.type + 
-    "\n Material: " + item.preview_item.item_subclass.name +
-    "\n Binding: " + item.preview_item.binding.name},
-    )
+    handleDefaultInfo(item, embed)
     handleStatsInfo(item, embed)
+    handleBonusStatsInfo(item, embed)
     handleSetInfo(item, embed)
     return embed
 }
 
+function handleDefaultInfo(item, embed) {
+    var infoString = ""
+    if(item.preview_item.quality != undefined) {
+        infoString += "Quality: " + item.preview_item.quality.type + "\n"
+    }
+    if(item.preview_item.inventory_type != undefined) {
+        infoString += "Slot: " + item.preview_item.inventory_type.type + "\n"
+    }
+    if(item.preview_item.item_subclass != undefined) {
+        infoString += "Material: " + item.preview_item.item_subclass.name + "\n"
+    }
+    if(item.level != undefined) {
+        infoString += "Item level: " + item.level + "\n"
+    }
+    if(item.required_level != undefined) {
+        infoString += "Required level: " + item.required_level + "\n"
+    }
+    if(item.preview_item.binding != undefined) {
+        infoString += item.preview_item.binding.name + "\n"
+    }
+    embed.addFields(
+        {name: "Info", value: infoString}
+    )
+}
+
+//default stats
+//extra stats
+
 function handleStatsInfo(item, embed) {
+    handleWeaponInfo(item, embed)
+    handleArmorInfo(item, embed)
+}
+
+function handleWeaponInfo(item, embed) {
+    var info = ""
+    if(item.preview_item.weapon != undefined) {
+        console.log(item.preview_item.weapon)
+        info += item.preview_item.weapon.damage.display_string + "\n"
+        info += item.preview_item.weapon.attack_speed.display_string + "\n"
+        info += item.preview_item.weapon.dps.display_string + "\n"
+        if(item.preview_item.weapon.additional_damage != undefined) {
+            for(var i = 0; i < item.preview_item.weapon.additional_damage.length; i++) {
+                info += item.preview_item.weapon.additional_damage[i].display_string + "\n"
+            }
+        }
+
+        embed.addFields(
+            {name: "Stats", value: info}
+        )
+    }
+}
+
+function handleArmorInfo(item, embed) {
+    if(item.preview_item.armor != undefined) {
+        embed.addFields(
+            {name: "Stats", value: item.preview_item.armor.display.display_string}
+        )
+    }
+}
+
+function handleBonusStatsInfo(item, embed) {
     if(item.preview_item.stats != undefined) {
         var statsString = ""
         for(var i = 0; i < item.preview_item.stats.length; i++) {
             statsString += item.preview_item.stats[i].display.display_string + "\n"
         }
         embed.addFields(
-            {name: "Stats", value: statsString}
+            {name: "Bonus stats", value: statsString}
         )
     }
 }
