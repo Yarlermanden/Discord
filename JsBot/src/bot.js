@@ -1,6 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
 const Discord = require('discord.js');
+const fetcher = require('./fetcher.js');
 
 const bot = new Discord.Client();
 const PREFIX = "$";
@@ -24,6 +25,9 @@ bot.on('message', message => {
             break;
         case "members":
             bot.commands.get('members').execute(message, args, Discord)
+            break;
+        case "item":
+            bot.commands.get('item').execute(message, args, Discord, fetcher)
             break;
     }
 });
