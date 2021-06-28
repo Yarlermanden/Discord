@@ -33,15 +33,13 @@ jobs:
             - name: Build and push to registry
               uses: docker/build-push-action@v2
               with:
+                      # file: frontend/dockerfile
                       context: ./frontend
                       push: true
-                      tags: ${{ steps.meta.outputs.tags }}
+                      #tags: ${{ steps.meta.outputs.tags }}
                       labels: ${{ steps.meta.outputs.labels }}
+                      tags: discordBot/frontend:latest
 
-                      # file: frontend/dockerfile
-                      # context: ./frontend
-                      # push: true
-                      # tags: discordBot/frontend:latest
 
 
     update_swarm:
@@ -49,7 +47,7 @@ jobs:
         needs: [build_and_push_frontend]
         
         steps:
-          - uses: action/checkout@v2
+          #- uses: action/checkout@v2
 
           - name: execute remote update
             uses: appleboy/ssh-action@master
