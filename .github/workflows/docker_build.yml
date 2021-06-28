@@ -52,7 +52,6 @@ jobs:
           - uses: action/checkout@v2
 
           - name: execute remote update
-<<<<<<< HEAD
             uses: appleboy/ssh-action@master
             with:
                 host: ${{ secrets.RPI_HOST }}
@@ -60,12 +59,3 @@ jobs:
                 PORT: 10022
                 KEY: ${{ secrets.RPI_SSH_TOKEN }}
                 script: whoami
-=======
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.RPI_HOST }}
-                  USERNAME: yarl
-                  PORT: 10022
-                  KEY: ${{ secrets.RPI_SSH_TOKEN }}
-                  script: whoami
->>>>>>> 82a9f9c83edca8a6dc8223710a292ee5d5761379
