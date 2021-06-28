@@ -3,17 +3,13 @@ version: '3.7'
 services:
     python:
         container_name: python
-        build:
-            context: ./python
-            dockerfile: dockerfile
+        image: ghcr.io/yarlermanden/discordbot/python:main
         networks:
             - local
 
     frontend:
         container_name: frontend
-        build:
-            context: ./frontend
-            dockerfile: dockerfile
+        image: ghcr.io/yarlermanden/discordbot/frontend:main
         ports:
             - "3000:80"
         networks:
