@@ -84,4 +84,5 @@ jobs:
                 USERNAME: yarl
                 PORT: 10022
                 KEY: ${{ secrets.RPI_SSH_TOKEN }}
-                script: docker stack deploy --compose-file docker-compose.yml discord_bot
+                script: cd ./Github/DiscordBot &&
+                docker stack deploy --compose-file docker-compose.yml discord_bot
