@@ -28,7 +28,7 @@ jobs:
               id: meta
               uses: docker/metadata-action@v3
               with:
-                      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
 
             - name: Build and push to registry
               uses: docker/build-push-action@v2
@@ -36,8 +36,8 @@ jobs:
                       # file: frontend/dockerfile
                       context: ./frontend
                       push: true
-                      tags: ${{ steps.meta.outputs.tags }} /frontend
-                      labels: ${{ steps.meta.outputs.labels }} /frontend
+                      tags: ${{ steps.meta.outputs.tags }}
+                      labels: ${{ steps.meta.outputs.labels }}
                       #tags: yarlermanden/discordbot/discordbot_frontend:latest
 
 
