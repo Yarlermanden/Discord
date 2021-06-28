@@ -5,6 +5,10 @@ on:
         branches:
             - main
 
+env:
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
+
 jobs:
     build_and_push_frontend:
         name: Build and push frontend
@@ -16,14 +20,69 @@ jobs:
             - name: login to registry
               uses: docker/login-action@v1
               with:
-                      registry: ${{ secrets.REGISTRY }}
-                      username: ${{ secrets.REGISTRY_NAME }}
-                      password: ${{ secrets.REGISTRY_PASSWORD }}
+                      registry: ${{ env.REGISTRY }}
+                      username: ${{ github.actor }}
+                      password: ${{ secrets.GIT_TOKEN }}
 
-            - name: push to registry
+            - name: Extract metadata
+              id: meta
+              uses: docker/metadata-action@v3
+              with:
+                      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
+
+            - name: Build and push to registry
               uses: docker/build-push-action@v2
               with:
-                      file: frontend/dockerfile
+                      # file: frontend/dockerfile
                       context: ./frontend
                       push: true
-                      tags: discordBot/frontend:latest
+                      tags: ${{ steps.meta.outputs.tags }}
+                      labels: ${{ steps.meta.outputs.labels }}
+                      #tags: yarlermanden/discordbot/discordbot_frontend:latest
+
+    build_and_push_python:
+        name: Build and push python
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout the repo
+              uses: actions/checkout@v2
+
+            - name: login to registry
+              uses: docker/login-action@v1
+              with:
+                      registry: ${{ env.REGISTRY }}
+                      username: ${{ github.actor }}
+                      password: ${{ secrets.GIT_TOKEN }}
+
+            - name: Extract metadata
+              id: meta
+              uses: docker/metadata-action@v3
+              with:
+                      images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/python
+
+            - name: Build and push to registry
+              uses: docker/build-push-action@v2
+              with:
+                      context: ./python
+                      push: true
+                      tags: ${{ steps.meta.outputs.tags }}
+                      labels: ${{ steps.meta.outputs.labels }}
+
+
+
+    update_swarm:
+        runs-on: ubuntu-latest
+        needs: [build_and_push_frontend]
+        
+        steps:
+          #- uses: action/checkout@v2
+
+          - name: execute remote update
+            uses: appleboy/ssh-action@master
+            with:
+                host: ${{ secrets.RPI_HOST }}
+                USERNAME: yarl
+                PORT: 10022
+                KEY: ${{ secrets.RPI_SSH_TOKEN }}
+                script: cd ./Github/DiscordBot &&
+                        docker stack deploy --compose-file docker-compose.yml discord_bot
