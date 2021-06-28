@@ -85,4 +85,5 @@ jobs:
                 PORT: 10022
                 KEY: ${{ secrets.RPI_SSH_TOKEN }}
                 script: cd ./Github/DiscordBot &&
+                        git pull &&
                         docker stack deploy --compose-file docker-compose.yml discord_bot
