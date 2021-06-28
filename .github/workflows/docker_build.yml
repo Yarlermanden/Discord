@@ -38,7 +38,7 @@ jobs:
                       push: true
                       #tags: ${{ steps.meta.outputs.tags }}
                       labels: ${{ steps.meta.outputs.labels }}
-                      tags: discordbot/frontend:latest
+                      tags: discordbot_frontend:latest
 
 
 
