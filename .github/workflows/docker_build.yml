@@ -42,3 +42,19 @@ jobs:
                       # context: ./frontend
                       # push: true
                       # tags: discordBot/frontend:latest
+
+
+    update_swarm:
+        runs-on: ubuntu-latest
+        needs: [build_and_push_frontend]
+        
+        steps:
+          - uses: action/checkout@v2
+          - name: execute remote update
+          uses: appleboy/ssh-action@master
+          with:
+              host: ${{ secrets.RPI_HOST }}
+              USERNAME: yarl
+              PORT: 10022
+              KEY: ${{ secrets.RPI_SSH_TOKEN }}
+              script: whoami
