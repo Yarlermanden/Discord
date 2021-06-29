@@ -36,8 +36,9 @@ jobs:
                       images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend
 
             - name: Build and push to registry
-              uses: docker/build-push-action@v2-build-push
+              uses: docker/build-push-action@v2
               with:
+                      builder: ${{ steps.buildx.outputs.name }}
                       # file: frontend/dockerfile
                       context: ./frontend
                       push: true
