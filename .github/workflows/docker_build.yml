@@ -36,7 +36,7 @@ jobs:
                       # file: frontend/dockerfile
                       context: ./frontend
                       push: true
-                      platforms: linux/arm6
+                      platforms: linux/arm64
                       tags: ${{ steps.meta.outputs.tags }}
                       #labels: ${{ steps.meta.outputs.labels }}
                       #tags: yarlermanden/discordbot/discordbot_frontend:latest
