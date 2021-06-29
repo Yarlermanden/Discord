@@ -50,6 +50,9 @@ jobs:
     build_and_push_python:
         name: Build and push python
         runs-on: ubuntu-latest
+        environment:
+          DOCKER_BUILDKIT: 1
+          BUILDX_PLATFORMS: linux/arm64
         steps:
             - name: checkout the repo
               uses: actions/checkout@v2
@@ -72,7 +75,6 @@ jobs:
               with:
                       context: ./python
                       push: true
-                      platforms: linux/arm64
                       tags: ${{ steps.meta.outputs.tags }}
                       #labels: ${{ steps.meta.outputs.labels }}
 
