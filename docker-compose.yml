@@ -15,10 +15,10 @@ services:
         networks:
             - local
         deploy:
-            replicas: 4
+            replicas: 2
             update_config:
                 parallelism: 1
-                delay: 20s
+                delay: 10s
                 order: start-first
 
 networks: 
